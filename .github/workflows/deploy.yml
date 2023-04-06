@@ -37,6 +37,7 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            script /dev/null
             sh /srv/ncth-scfests-api/stop.sh
 
       # Upload
