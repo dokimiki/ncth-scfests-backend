@@ -1,0 +1,61 @@
+name: Release to Server
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Build and Deploy to Server
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Setup GO
+      - name: Setup GO
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: ./go.mod
+
+      # Download modules
+      - name: Download modules
+        run: go mod download
+
+      # Build
+      - name: Build project
+        run: go build -ldflags="-s -w" -trimpath -o ./build/server ./main.go
+
+      # stop API server
+      - name: Stop API server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            sh /srv/ncth-scfests-api/stop.sh
+
+      # Upload
+      - name: Upload to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          source: ./build/server
+          target: /srv/ncth-scfests-api
+
+      # start API server
+      - name: Start API server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            sh /srv/ncth-scfests-api/start.sh
