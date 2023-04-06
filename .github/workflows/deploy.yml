@@ -26,7 +26,7 @@ jobs:
 
       # Build
       - name: Build project
-        run: go build -ldflags="-s -w" -trimpath -o ./build/server ./main.go
+        run: go build -ldflags="-s -w" -trimpath -o ./server ./main.go
 
       # stop API server
       - name: Stop API server
@@ -47,7 +47,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: ./build/server
+          source: ./server
           target: /srv/ncth-scfests-api
 
       # start API server
