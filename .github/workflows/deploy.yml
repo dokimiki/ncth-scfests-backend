@@ -18,7 +18,7 @@ jobs:
       - name: Setup GO
         uses: actions/setup-go@v4
         with:
-          go-version: 1.20
+          go-version: '1.20'
 
       # Download modules
       - name: Download modules
