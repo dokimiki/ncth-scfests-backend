@@ -5,7 +5,7 @@ import (
 )
 
 func Hello(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello, world!"))
+	w.Write([]byte("Kou Ushio!"))
 }
 
 func main() {
