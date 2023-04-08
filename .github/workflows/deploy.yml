@@ -20,26 +20,14 @@ jobs:
         with:
           go-version: '1.20'
 
-      # Download modules
-      - name: Download modules
+      # Download Modules
+      - name: Download Modules
         run: go mod download
 
       # Build
-      - name: Build project
+      - name: Build Project
         run: go build -ldflags="-s -w" -trimpath -o ./server ./main.go
-
-      # stop API server
-      - name: Stop API server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SERVER_KEY }}
-          port: ${{ secrets.SERVER_PORT }}
-          script: |
-            script /dev/null
-            sh /srv/ncth-scfests-api/stop.sh
-
+        
       # Upload
       - name: Upload to Server
         uses: appleboy/scp-action@master
@@ -48,11 +36,11 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: ./server
+          source: ./new_server
           target: /srv/ncth-scfests-api
 
-      # start API server
-      - name: Start API server
+      # Replacing API Server
+      - name: Replacing API Server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -60,4 +48,8 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            sh /srv/ncth-scfests-api/start.sh
+            cd /srv/ncth-scfests-api/
+            sh ./stop.sh
+            rm -f ./server
+            mv ./new_server ./server
+            sh ./start.sh
