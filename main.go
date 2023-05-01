@@ -47,4 +47,5 @@ func main() {
 	if err != nil { // エラーメッセージがあるとき出力
 		fmt.Printf("ERROR : %s", err)
 	}
+	UsioOpen()
 }
