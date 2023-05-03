@@ -9,7 +9,7 @@ import (
 func UsioOpen(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("ファイル読み取り処理を開始します"))
 	// ファイルをOpenする
-	f, err := os.Open("log.txt")
+	f, err := os.Open("logs/log.txt")
 	// 読み取り時の例外処理
 	if err != nil {
 		w.Write([]byte("error\n"))
