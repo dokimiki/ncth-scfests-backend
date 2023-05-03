@@ -40,6 +40,12 @@ func UsioOpen(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/", UsioOpen) // /が来たときに func Hello を実行する
 
+	/* HandleFunc の第一引数のパス指定の最後には "/" を付けるべきでは? */
+	/* (前回は "/end" と記述されていた https://github.com/dokimiki/ncth-scfests-backend/commit/8321e5efddf4b86cfcede430f056f894e8a241ac ) */
+	http.HandleFunc("/webhook/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("This is Webhook."))
+	})
+
 	err := http.ListenAndServeTLS(":3939", "ncth-app.jp.pem", "ncth-app.jp.key", nil)
 	//func ListenAndServeTLS(addr, certFile, keyFile string, handler Handler)　error
 	// errにエラーメッセージを格納する
