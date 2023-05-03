@@ -9,10 +9,12 @@ import (
 func UsioOpen(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("ファイル読み取り処理を開始します"))
 	// ファイルをOpenする
-	f, err := os.Open("test.txt")
+	f, err := os.Open("usio.txt")
 	// 読み取り時の例外処理
 	if err != nil {
 		w.Write([]byte("error\n"))
+	} else {
+		w.Write([]byte("🐄"))
 	}
 	// 関数が終了した際に確実に閉じるようにする
 	defer f.Close()
