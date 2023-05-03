@@ -6,13 +6,13 @@ import (
 	"os"
 )
 
-func UsioOpen() {
-	fmt.Println("ファイル読み取り処理を開始します")
+func UsioOpen(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("ファイル読み取り処理を開始します"))
 	// ファイルをOpenする
 	f, err := os.Open("test.txt")
 	// 読み取り時の例外処理
 	if err != nil {
-		fmt.Println("error")
+		w.Write([]byte("error\n"))
 	}
 	// 関数が終了した際に確実に閉じるようにする
 	defer f.Close()
@@ -30,15 +30,14 @@ func UsioOpen() {
 			break
 		}
 		// バイト型スライスを文字列型に変換してファイルの内容を出力
-		fmt.Println(string(buf[:n]))
+		w.Write([]byte(string(buf[:n])))
 	}
 }
 
-func Hello(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Kou kou!"))
-}
+// w.Write([]byte("Kou kou!"))
+
 func main() {
-	http.HandleFunc("/", Hello) // /が来たときに func Hello を実行する
+	http.HandleFunc("/", UsioOpen) // /が来たときに func Hello を実行する
 
 	err := http.ListenAndServeTLS(":3939", "ncth-app.jp.pem", "ncth-app.jp.key", nil)
 	//func ListenAndServeTLS(addr, certFile, keyFile string, handler Handler)　error
@@ -47,5 +46,4 @@ func main() {
 	if err != nil { // エラーメッセージがあるとき出力
 		fmt.Printf("ERROR : %s", err)
 	}
-	UsioOpen()
 }
