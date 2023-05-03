@@ -8,13 +8,12 @@ import (
 
 func UsioOpen(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("ファイル読み取り処理を開始します"))
+
 	// ファイルをOpenする
 	f, err := os.Open("logs/log.txt")
 	// 読み取り時の例外処理
 	if err != nil {
 		w.Write([]byte("error\n"))
-	} else {
-		w.Write([]byte("🐄"))
 	}
 	// 関数が終了した際に確実に閉じるようにする
 	defer f.Close()
@@ -32,7 +31,7 @@ func UsioOpen(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		// バイト型スライスを文字列型に変換してファイルの内容を出力
-		w.Write([]byte(string(buf[:n])))
+		w.Write(buf[:n])
 	}
 }
 
