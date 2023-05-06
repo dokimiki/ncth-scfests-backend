@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 )
 
 type (
@@ -73,6 +74,8 @@ func UsioOpen(w http.ResponseWriter, r *http.Request) {
 		// バイト型スライスを文字列型に変換してファイルの内容を出力
 		w.Write(buf[:n])
 	}
+	t := time.Now()
+	w.Write([]byte("   now time is :" + t.Format("2006-01-02 03:04:05")))
 }
 
 // SampleHandlerの構造体にinterfaceのhttp.Handlerを設定して返す関数
