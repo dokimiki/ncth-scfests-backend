@@ -8,6 +8,8 @@ import (
 	"os"
 	"strconv"
 	"time"
+    "github.com/labstack/echo/v4"
+    "github.com/labstack/echo/v4/middleware"
 )
 
 type (
@@ -27,13 +29,13 @@ type (
 		StatusCode string `json:"returnCode"`
 	}
 )
-
+/*
 func main() {
 	http.HandleFunc("/", UsioOpen) // /が来たときに func Hello を実行する
 
-	/* HandleFunc の第一引数のパス指定の最後には "/" を付けるべきでは? */
-	/* (前回は "/end" と記述されていた
-	https://github.com/dokimiki/ncth-scfests-backend/commit/8321e5efddf4b86cfcede430f056f894e8a241ac ) */
+	// HandleFunc の第一引数のパス指定の最後には "/" を付けるべきでは? 
+	// (前回は "/end" と記述されていた
+	https://github.com/dokimiki/ncth-scfests-backend/commit/8321e5efddf4b86cfcede430f056f894e8a241ac )
 	http.HandleFunc("/webhook/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("This is Webhook."))
 	})
@@ -45,6 +47,21 @@ func main() {
 	if err != nil { // エラーメッセージがあるとき出力
 		fmt.Printf("ERROR : %s", err)
 	}
+}*/
+
+func main() {
+    e := echo.New()
+
+    e.Use(middleware.Logger())
+    e.Use(middleware.Recover())
+
+    e.GET("/", hello)
+
+    e.Logger.Fatal(e.Start(":8080"))
+}
+
+func hello(c echo.Context) error {
+    return c.String(http.StatusOK, "Hello, World!")
 }
 
 func UsioOpen(w http.ResponseWriter, r *http.Request) {
