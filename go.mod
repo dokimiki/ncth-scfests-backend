@@ -2,7 +2,6 @@ module github.com/dokimiki/ncth-scfests-backend
 
 go 1.20
 
-<<<<<<< HEAD
 require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/labstack/echo/v4 v4.10.2 // indirect
@@ -17,6 +16,3 @@ require (
 	golang.org/x/text v0.7.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 )
-=======
-require github.com/go-sql-driver/mysql v1.7.1 // indirect
->>>>>>> cdf9dfb11793814239734c3117ae703030e167b3
