@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -12,6 +13,15 @@ func hello(c echo.Context) error {
 }
 
 func main() {
+	m := map[string]interface{}{
+		"name": "うしお こう",
+		"age":  1000,
+		"sex":  "♂",
+	}
+
+	fmt.Printf("His name is %s\n", m["name"])
+	fmt.Printf("His age is  %d\n", m["age"])
+	fmt.Printf("His sex is  %s\n", m["sex"])
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
@@ -20,7 +30,6 @@ func main() {
 	e.GET("/user/:id", GetId)
 
 	e.GET("/usio", GetQueryParam)
-	println("うしおこうは おしまい!!%d", 1)
 	e.Logger.Fatal(e.Start(":3939"))
 
 }
