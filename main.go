@@ -31,7 +31,7 @@ func main() {
 
 	e.GET("/usio", GetQueryParam)
 	e.GET("/putTest/:id", UpdateUsers)
-	e.GET("/getUserTest", GetUsers)
+	//e.GET("/getUserTest", GetUsers)
 	e.Logger.Fatal(e.Start(":3939"))
 
 }
@@ -65,6 +65,7 @@ func UpdateUsers(c echo.Context) error {
 }
 
 // クエリパラメータを受け取って返す
+/*
 func GetUsers(c echo.Context) error {
 
 	u := request.GetUsers{}
@@ -73,4 +74,4 @@ func GetUsers(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, err)
-}
+}*/
