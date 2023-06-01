@@ -30,7 +30,8 @@ func main() {
 	e.GET("/user/:id", GetId)
 
 	e.GET("/usio", GetQueryParam)
-	e.PUT("/putTest/:id", UpdateUsers)
+	e.GET("/putTest/:id", UpdateUsers)
+	e.GET("/getUserTest", GetUsers)
 	e.Logger.Fatal(e.Start(":3939"))
 
 }
@@ -61,4 +62,15 @@ func GetQueryParam(c echo.Context) error {
 // ヘッダーのコンテンツタイプを受け取って返す
 func UpdateUsers(c echo.Context) error {
 	return c.String(http.StatusOK, c.Request().Header.Get("Content-Type"))
+}
+
+// クエリパラメータを受け取って返す
+func GetUsers(c echo.Context) error {
+
+	u := request.GetUsers{}
+	if err := c.Bind(&u); err != nil {
+		err = errors.Wrap(err, "failed to bind request data.")
+	}
+
+	return c.JSON(http.StatusOK, res)
 }
