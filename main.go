@@ -30,7 +30,7 @@ func main() {
 	e.GET("/user/:id", GetId)
 
 	e.GET("/usio", GetQueryParam)
-	e.PUT("/putTest", UpdateUsers)
+	e.PUT("/putTest/:id", UpdateUsers)
 	e.Logger.Fatal(e.Start(":3939"))
 
 }
