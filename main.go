@@ -72,5 +72,5 @@ func GetUsers(c echo.Context) error {
 		err = errors.Wrap(err, "failed to bind request data.")
 	}
 
-	return c.JSON(http.StatusOK, res)
+	return c.JSON(http.StatusOK, err)
 }
